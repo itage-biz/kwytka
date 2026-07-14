@@ -1,6 +1,7 @@
 @page "/admin"
 @rendermode InteractiveServer
 @inject Configuration.IConfigurationService ConfigurationService
+@inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
 <PageTitle>Адміністрування - Квітка</PageTitle>
 
 <section class="admin-page" aria-labelledby="admin-title">
@@ -41,7 +42,7 @@
         </label>
         <details class="price-list-preview">
             <summary>Попередній перегляд</summary>
-            <div class="price-list-preview-content" data-count-columns="@ConfigurationService.Data.CountColumns">
+            <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
                 @if (string.IsNullOrWhiteSpace(ConfigurationService.Data.SalePageHtml))
                 {
                     <p class="price-list-empty-preview">Порожній вміст</p>
@@ -62,11 +63,6 @@
             </div>
             <button class="add-button" type="button" @onclick="AddPriceList">+ Додати прайс-лист</button>
         </div>
-
-        <label>
-            <span>Колонки з кількістю</span>
-            <input @bind="ConfigurationService.Data.CountColumns"/>
-        </label>
 
         @if (ConfigurationService.Data.PriceLists.Count == 0)
         {
@@ -105,7 +101,7 @@
                             </label>
                             <details class="price-list-preview">
                                 <summary>Попередній перегляд</summary>
-                                <div class="price-list-preview-content" data-count-columns="@ConfigurationService.Data.CountColumns">
+                                <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
                                     @if (string.IsNullOrWhiteSpace(priceList.HtmlContent))
                                     {
                                         <p class="price-list-empty-preview">Порожній вміст</p>

@@ -81,6 +81,11 @@ h1 {
     font-style: italic;
 }
 
+.table-scroll-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 .price-list-page ::deep table {
     margin-top: 1rem;
     width: 100%;

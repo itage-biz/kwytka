@@ -17,6 +17,8 @@ builder.Services.AddOptions<ConfigurationStorageOptions>()
     .Configure(options => options.ConfigPath = builder.Configuration["ConfigPath"] ?? string.Empty)
     .Validate(options => !string.IsNullOrWhiteSpace(options.ConfigPath), "ConfigPath must be configured.")
     .ValidateOnStart();
+builder.Services.AddOptions<TableFormattingOptions>()
+    .Configure(options => options.CountColumns = builder.Configuration["CountColumns"] ?? options.CountColumns);
 builder.Services.AddSingleton<IConfigurationService, JsonConfigurationService>();
 
 var app = builder.Build();

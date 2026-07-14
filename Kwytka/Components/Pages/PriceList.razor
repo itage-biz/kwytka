@@ -1,5 +1,6 @@
 @page "/price/{Slug}"
 @inject Configuration.IConfigurationService ConfigurationService
+@inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
 @using Microsoft.AspNetCore.Http
 
 <PageTitle>@(_priceList?.Title ?? "Прайс-лист") - Квітка</PageTitle>
@@ -22,7 +23,7 @@
             </div>
             <p class="price-list-search-empty" role="status" hidden>Нічого не знайдено</p>
         </div>
-        <div data-count-columns="@ConfigurationService.Data.CountColumns">
+        <div class="table-scroll-container" data-count-columns="@TableOptions.Value.CountColumns">
             @((MarkupString)_priceList.HtmlContent)
         </div>
     }

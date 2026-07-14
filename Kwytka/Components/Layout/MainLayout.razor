@@ -8,14 +8,14 @@
         <div class="header-inner">
             <a class="brand" href="/" aria-label="Kwytka — на головну">
                 <img class="brand-mark" src="images/log2.webp" alt="" />
-                <img class="brand-wordmark" src="images/kwytka.png" alt="Квітка - Dutch Quality" />
+                <span class="brand-wordmark">KWYTKA</span>
             </a>
 
             <nav class="site-nav" aria-label="Головна навігація">
                 <NavLink href="price">Наявність асортименту</NavLink>
                 @if (ConfigurationService.Data.IsSaleEnabled)
                 {
-                    <NavLink href="sale">Sale</NavLink>
+                    <NavLink class="sale-nav-link" href="sale">Розпродаж</NavLink>
                 }
                 <NavLink href="contacts">Контакти</NavLink>
             </nav>
@@ -25,6 +25,10 @@
     <main id="main-content" class="page-surface">
         @Body
     </main>
+
+    <footer class="site-footer">
+        &copy; Kwytka, @DateTime.Now.Year, v.@AppVersion
+    </footer>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -32,3 +36,7 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    private static string AppVersion => typeof(MainLayout).Assembly.GetName().Version?.ToString() ?? "unknown";
+}

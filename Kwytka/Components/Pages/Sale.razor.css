@@ -21,24 +21,19 @@ h1 {
     line-height: 1.1;
 }
 
-.sale-content {
-    min-height: 8rem;
-    margin-top: clamp(1.5rem, 4vw, 2.5rem);
-    padding: clamp(1.25rem, 3vw, 2rem);
-    line-height: 1.6;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(154, 129, 123, 0.3);
-    border-radius: 0.5rem;
-    box-shadow: 0 0.75rem 1.75rem rgba(67, 48, 43, 0.06);
+.table-scroll-container {
+    max-width: 100%;
+    overflow-x: auto;
 }
 
-.sale-content:empty::before {
+.sale-page [data-count-columns]:empty::before {
     content: 'Текст розпродажу ще не додано.';
     color: #6a605d;
     font-style: italic;
 }
 
-.sale-content ::deep table {
+.sale-page ::deep table {
+    margin-top: 1rem;
     width: 100%;
     color: #352d2a;
     line-height: 1.35;
@@ -48,8 +43,8 @@ h1 {
     overflow: hidden;
 }
 
-.sale-content ::deep th,
-.sale-content ::deep td {
+.sale-page ::deep th,
+.sale-page ::deep td {
     min-width: 5rem;
     padding: 0.5rem 0.65rem;
     border: 0;
@@ -58,12 +53,12 @@ h1 {
     vertical-align: top;
 }
 
-.sale-content ::deep th + th,
-.sale-content ::deep td + td {
+.sale-page ::deep th + th,
+.sale-page ::deep td + td {
     border-left: 1px solid rgba(218, 204, 199, 0.38);
 }
 
-.sale-content ::deep th {
+.sale-page ::deep th {
     color: #3f302c;
     font-size: 0.9rem;
     font-weight: 800;
@@ -72,11 +67,11 @@ h1 {
     border-bottom-color: #dccbc5;
 }
 
-.sale-content ::deep .count-column {
+.sale-page ::deep .count-column {
     font-weight: 800;
     text-align: center;
 }
 
-.sale-content ::deep tbody tr:nth-child(even) {
+.sale-page ::deep tbody tr:nth-child(even) {
     background: #fcf9f8;
 }

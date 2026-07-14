@@ -1,11 +1,12 @@
 @page "/sale"
 @inject Configuration.IConfigurationService ConfigurationService
+@inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
 
 <PageTitle>Розпродаж - Квітка</PageTitle>
 
 <section class="sale-page" aria-labelledby="sale-title">
     <h1 id="sale-title">Розпродаж</h1>
-    <div class="sale-content" data-count-columns="@ConfigurationService.Data.CountColumns">
+    <div class="table-scroll-container" data-count-columns="@TableOptions.Value.CountColumns">
         @((MarkupString)ConfigurationService.Data.SalePageHtml)
     </div>
 </section>

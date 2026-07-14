@@ -66,8 +66,11 @@
 }
 
 .brand-wordmark {
-    width: min(18rem, 32vw);
-    height: auto;
+    color: #ffffff;
+    font-family: Prata, Georgia, serif;
+    font-size: clamp(2.75rem, 5vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
     white-space: nowrap;
 }
 
@@ -86,6 +89,12 @@
     font-weight: 650;
     line-height: 1.25;
     text-decoration: none;
+    text-shadow: 0 1px 1px rgba(32, 27, 25, 0.45);
+}
+
+.site-nav ::deep .sale-nav-link {
+    color: #fff3c4;
+    font-weight: 800;
     text-shadow: 0 1px 1px rgba(32, 27, 25, 0.45);
 }
 
@@ -123,6 +132,14 @@
     box-shadow: 0 1.25rem 3rem rgba(67, 48, 43, 0.16);
 }
 
+.site-footer {
+    width: min(100%, 68.75rem);
+    margin: 1rem auto 0;
+    color: #5f5653;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
 @media (max-width: 52rem) {
     .site-shell {
         padding: 1rem;
@@ -137,8 +154,8 @@
 
     .site-nav {
         width: 100%;
-        display: grid;
-        grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.65fr) minmax(0, 0.85fr);
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 0.45rem;
         padding: 0;
     }
@@ -154,6 +171,15 @@
         background: rgba(255, 255, 255, 0.14);
         border: 1px solid rgba(255, 255, 255, 0.24);
         border-radius: 999px;
+    }
+
+    .site-nav ::deep a.active {
+        background: #765b55;
+        border-color: #765b55;
+    }
+
+    .site-nav ::deep a.active::after {
+        display: none;
     }
 }
 
@@ -182,12 +208,9 @@
     }
 
     .brand-wordmark {
-        width: min(15.5rem, calc(100vw - 7rem));
+        font-size: clamp(2.3rem, 12vw, 2.75rem);
     }
 
-    .site-nav {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
