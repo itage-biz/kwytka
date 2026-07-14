@@ -1,0 +1,49 @@
+.quill-editor {
+    display: block;
+    --kwytka-editor-border: #cdbdb7;
+    --kwytka-editor-background: #fffdfa;
+    --kwytka-editor-min-height: 10rem;
+    margin-top: 0.45rem;
+}
+
+.quill-editor,
+.quill-editor ::deep .ql-editor {
+    box-sizing: border-box;
+}
+
+.quill-editor__content ::deep .ql-toolbar.ql-snow {
+    border: 1px solid var(--kwytka-editor-border);
+    border-radius: 0.3rem 0.3rem 0 0;
+    background: var(--kwytka-editor-background);
+    box-sizing: border-box;
+}
+
+.quill-editor__content ::deep .ql-container.ql-snow {
+    border: 1px solid var(--kwytka-editor-border);
+    border-radius: 0 0 0.3rem 0.3rem;
+}
+
+.quill-editor__content ::deep .ql-container.ql-snow,
+.quill-editor__content ::deep .ql-toolbar.ql-snow {
+    width: 100%;
+    font: inherit;
+}
+
+.quill-editor__content ::deep .ql-editor {
+    min-height: var(--kwytka-editor-min-height);
+    padding: 0.75rem;
+    color: #201b19;
+    background: var(--kwytka-editor-background);
+    resize: vertical;
+}
+
+.quill-editor__content ::deep .ql-editor.ql-blank::before {
+    left: 0.75rem;
+    color: #8a7b77;
+}
+
+@media (max-width: 50rem) {
+    .quill-editor {
+        --kwytka-editor-min-height: 8.5rem;
+    }
+}

@@ -1,0 +1,110 @@
+body{
+font-family: Verdana, Arial, Helvetica, sans-serif;
+background-image: url("kwytka.webp");
+background-size: 300px 300px; 
+width: 1100px;
+margin: 0 auto;
+}
+header{
+font-family: Century Gothic;
+font-size:20px;
+background-color: #9A817B;
+height: 89px;
+margin-top:75px;
+  margin-bottom: 40px;
+  margin-right: 100px;
+  width: 99%;
+padding: 5px;
+text-align: left;
+}
+header span{
+font-size: 50px;
+color:#ffffff;
+}
+
+header a{
+margin: 0 0 0 40px;
+color:#ffffff;
+text-decoration:none;
+text-shadow: black 1px 0px, blackw 1px 1px, black 0px 1px, black -1px 1px, black -1px 0px, black -1px -1px, black 0px -1px, black 1px -1px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px;
+}
+header li{
+padding: 3px;
+list-style-type: none;
+}
+header ul{
+margin: 0 0 0 0;
+}
+.aa{
+background:#ffffff;
+text-align: justify;
+height: 387px;
+margin: -17px 0 0 0;
+padding: 10px 10px 0 10px;
+}
+.aa img{
+width: 250px;
+float: left;
+margin: 0px 10px 0 0px;
+}
+.nn{
+background:#ffffff;
+height: auto;
+padding: 10px 10px 0 10px;
+}
+.nn img{
+width: 250px;
+margin: 10px 10px 0 20px;
+}
+.ll{
+width: 300px;
+float:left;
+}
+.rr{
+width: 300px;
+float:right;
+}
+.cc{
+width: 300px;
+float:auto;
+}
+.nal li{
+padding: 3px;
+list-style-type: circle;
+}
+.nal  a{
+color:#000000;
+text-decoration:none;
+}
+.nal a:hover {
+    color: #1240AB;
+}
+.nal  ul{
+margin: 0 0 0 10px;
+}
+.nal{
+background:#ffffff;
+}
+.nal p{
+margin:10px;
+}
+
+td{
+font-size:11px;
+}
+
+img {
+  vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+
+

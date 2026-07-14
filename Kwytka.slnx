@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Kwytka.RichTextEditor/Kwytka.RichTextEditor.csproj" />
+  <Project Path="Kwytka/Kwytka.csproj" />
+</Solution>

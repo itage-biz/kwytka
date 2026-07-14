@@ -1,0 +1,52 @@
+@page "/price/{Slug}"
+@inject Configuration.IConfigurationService ConfigurationService
+@using Microsoft.AspNetCore.Http
+
+<PageTitle>@(_priceList?.Title ?? "Прайс-лист") - Квітка</PageTitle>
+
+<section class="price-list-page" aria-labelledby="price-list-title">
+    @if (_priceList is null)
+    {
+        <p class="price-list-not-found">Прайс-лист не знайдено.</p>
+    }
+    else
+    {
+        <a class="back-link" href="/price" data-enhance-nav="false">← До асортименту</a>
+        <h1 id="price-list-title">@_priceList.Title</h1>
+        <div class="price-list-search" data-price-list-search>
+            <label for="price-list-search-input">Пошук у прайс-листі</label>
+            <div class="price-list-search-controls">
+                <input id="price-list-search-input" type="search"
+                       placeholder="Введіть назву або характеристику"/>
+                <button type="button" disabled>Очистити</button>
+            </div>
+            <p class="price-list-search-empty" role="status" hidden>Нічого не знайдено</p>
+        </div>
+        @((MarkupString)_priceList.HtmlContent)
+    }
+</section>
+
+@code {
+    [Parameter] public string Slug { get; set; } = string.Empty;
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    private Kwytka.Configuration.PriceList? _priceList;
+
+    protected override void OnParametersSet()
+    {
+        _priceList = ConfigurationService.Data.PriceLists.FirstOrDefault(priceList =>
+            string.Equals(priceList.Slug, Slug, StringComparison.OrdinalIgnoreCase));
+
+        if (_priceList is null || string.IsNullOrWhiteSpace(_priceList.HtmlContent))
+        {
+            _priceList = null;
+            if (HttpContext is not null)
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            }
+        }
+    }
+
+}
+
+<script type="module" src="@Assets["Components/Pages/PriceList.razor.js"]"></script>

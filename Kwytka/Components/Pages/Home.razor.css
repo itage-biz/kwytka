@@ -1,0 +1,58 @@
+.page-surface {
+    min-height: 0;
+}
+
+.home-page {
+    width: 100%;
+}
+
+.home-intro {
+    padding: clamp(0.25rem, 1vw, 0.75rem);
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.home-intro-image {
+    width: clamp(12rem, 31vw, 18rem);
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.home-intro-copy {
+    max-width: 42rem;
+    padding-top: 0.35rem;
+}
+
+.home-intro-text {
+    margin: 0 0 1rem;
+    font-size: 16px;
+    line-height: 1.45;
+    text-align: left;
+}
+
+.home-bottom-image-wrap {
+    padding-top: clamp(2rem, 6vw, 4rem);
+    text-align: center;
+}
+
+.home-bottom-image {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .home-intro {
+        flex-direction: column;
+    }
+
+    .home-intro-image {
+        width: min(100%, 18rem);
+        margin-inline: auto;
+    }
+
+    .home-intro-copy {
+        padding-top: 0;
+    }
+}

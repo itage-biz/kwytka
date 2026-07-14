@@ -1,0 +1,31 @@
+@page "/price"
+@inject Configuration.IConfigurationService ConfigurationService
+
+<PageTitle>Наявність асортименту - Квітка</PageTitle>
+
+<section class="price-page" aria-labelledby="price-title">
+    <h1 id="price-title">Наявність асортименту</h1>
+
+    @{
+        var priceListsWithContent = ConfigurationService.Data.PriceLists
+            .Where(priceList => !string.IsNullOrWhiteSpace(priceList.HtmlContent))
+            .ToArray();
+    }
+
+    @if (priceListsWithContent.Length == 0)
+    {
+        <p class="price-empty">Прайс-листи ще не додано.</p>
+    }
+    else
+    {
+        <nav class="price-list-links" aria-label="Прайс-листи">
+            @foreach (var priceList in priceListsWithContent)
+            {
+                <a href="@($"price/{Uri.EscapeDataString(priceList.Slug)}")" data-enhance-nav="false">
+                    <span>@priceList.Title</span>
+                    <span class="price-list-arrow" aria-hidden="true">→</span>
+                </a>
+            }
+        </nav>
+    }
+</section>

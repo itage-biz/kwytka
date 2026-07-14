@@ -1,0 +1,173 @@
+@page "/admin"
+@rendermode InteractiveServer
+@inject Configuration.IConfigurationService ConfigurationService
+<PageTitle>Адміністрування - Квітка</PageTitle>
+
+<QuillAssets/>
+
+<section class="admin-page" aria-labelledby="admin-title">
+    <header class="admin-header">
+        <div>
+            <h1 id="admin-title">Адміністрування</h1>
+        </div>
+        <button class="save-button" type="button" disabled="@_isSaving" @onclick="SaveAsync">
+            @(_isSaving ? "Збереження..." : "Зберегти зміни")
+        </button>
+    </header>
+
+    @if (_saveMessage is not null)
+    {
+        <p class="save-message" role="status">@_saveMessage</p>
+    }
+
+    <section class="settings-section" aria-labelledby="sale-title">
+        <div class="section-heading">
+            <p class="section-number">01</p>
+            <h2 id="sale-title">Розпродаж</h2>
+        </div>
+
+        <label class="sale-toggle">
+            <input type="checkbox" @bind="ConfigurationService.Data.IsSaleEnabled"/>
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span>Розпродаж увімкнуто</span>
+        </label>
+
+        <label class="field-label">Текст сторінки розпродажу</label>
+        <QuillEditor @bind-Value="ConfigurationService.Data.SalePageHtml" MinHeight="12rem" Sanitize="true"/>
+    </section>
+
+    <section class="settings-section" aria-labelledby="price-lists-title">
+        <div class="price-lists-header">
+            <div class="section-heading">
+                <p class="section-number">02</p>
+                <h2 id="price-lists-title">Прайс-листи</h2>
+            </div>
+            <button class="add-button" type="button" @onclick="AddPriceList">+ Додати прайс-лист</button>
+        </div>
+
+        @if (ConfigurationService.Data.PriceLists.Count == 0)
+        {
+            <p class="price-list-empty">Прайс-листів ще немає.</p>
+        }
+        else
+        {
+            <div class="price-list-cards">
+                @for (var index = 0; index < ConfigurationService.Data.PriceLists.Count; index++)
+                {
+                    var priceListIndex = index;
+                    var priceList = ConfigurationService.Data.PriceLists[priceListIndex];
+
+                    <article class="price-list-card" @key="priceList">
+                        <div class="price-list-card-content">
+                            <p class="card-index">Прайс-лист @(priceListIndex + 1)</p>
+                            <div class="price-list-fields">
+                                <label>
+                                    <span>Slug</span>
+                                    <input @bind="priceList.Slug"/>
+                                </label>
+                                <label>
+                                    <span>Назва</span>
+                                    <input @bind="priceList.Title"/>
+                                </label>
+                            </div>
+                            <label>
+                                <span>HTML-вміст</span>
+                                <div class="price-list-textarea-with-clear">
+                                    <PasteableTableInput class="price-list-content-input"
+                                                         @bind-Value="priceList.HtmlContent"></PasteableTableInput>
+                                    <button type="button" class="price-list-clear-button" title="Очистити вміст"
+                                            aria-label="Очистити HTML-вміст"
+                                        @onclick="() => ClearPriceListContent(priceListIndex)">×</button>
+                                </div>
+                            </label>
+                            <details class="price-list-preview">
+                                <summary>Попередній перегляд</summary>
+                                <div class="price-list-preview-content">
+                                    @if (string.IsNullOrWhiteSpace(priceList.HtmlContent))
+                                    {
+                                        <p class="price-list-empty-preview">Порожній вміст</p>
+                                    }
+                                    else
+                                    {
+                                        @((MarkupString)priceList.HtmlContent)
+                                    }
+                                </div>
+                            </details>
+                        </div>
+                        <div class="price-list-actions" aria-label="Дії з прайс-листом">
+                            <button type="button" title="Перемістити вище" aria-label="Перемістити вище"
+                                    disabled="@(priceListIndex == 0)"
+                                    @onclick="() => MovePriceList(priceListIndex, -1)">↑
+                            </button>
+                            <button type="button" title="Перемістити нижче" aria-label="Перемістити нижче"
+                                    disabled="@(priceListIndex == ConfigurationService.Data.PriceLists.Count - 1)"
+                                    @onclick="() => MovePriceList(priceListIndex, 1)">↓
+                            </button>
+                            <button class="delete-button" type="button" title="Видалити прайс-лист"
+                                    aria-label="Видалити прайс-лист" @onclick="() => DeletePriceList(priceListIndex)">×
+                            </button>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </section>
+</section>
+
+@code {
+    private bool _isSaving;
+    private string? _saveMessage;
+
+
+    private void AddPriceList()
+    {
+        ConfigurationService.Data.PriceLists.Add(new Kwytka.Configuration.PriceList());
+        _saveMessage = null;
+    }
+
+    private void DeletePriceList(int index)
+    {
+        ConfigurationService.Data.PriceLists.RemoveAt(index);
+        _saveMessage = null;
+    }
+
+    private void MovePriceList(int index, int direction)
+    {
+        var targetIndex = index + direction;
+        if (targetIndex < 0 || targetIndex >= ConfigurationService.Data.PriceLists.Count)
+        {
+            return;
+        }
+
+        var priceList = ConfigurationService.Data.PriceLists[index];
+        ConfigurationService.Data.PriceLists.RemoveAt(index);
+        ConfigurationService.Data.PriceLists.Insert(targetIndex, priceList);
+        _saveMessage = null;
+    }
+
+    private async Task SaveAsync()
+    {
+        _isSaving = true;
+        _saveMessage = null;
+
+        try
+        {
+            await ConfigurationService.SaveAsync();
+            _saveMessage = "Зміни збережено.";
+        }
+        catch (InvalidDataException exception)
+        {
+            _saveMessage = exception.Message;
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private void ClearPriceListContent(int index)
+    {
+        ConfigurationService.Data.PriceLists[index].HtmlContent = string.Empty;
+    }
+
+}

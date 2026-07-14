@@ -1,0 +1,12 @@
+services:
+  kwytka:
+    image: mjr27/kwytka:latest
+    restart: unless-stopped
+    ports:
+      - "${KWYTKA_PORT:-8080}:8080"
+    environment:
+      ConfigPath: /app/settings.json
+      Admin__Login: ${KWYTKA_ADMIN_LOGIN:?Set KWYTKA_ADMIN_LOGIN in the deployment environment.}
+      Admin__Password: ${KWYTKA_ADMIN_PASSWORD:?Set KWYTKA_ADMIN_PASSWORD in the deployment environment.}
+    volumes:
+      - ${KWYTKA_SETTINGS_PATH:?Set KWYTKA_SETTINGS_PATH to the absolute host path of settings.json.}:/app/settings.json

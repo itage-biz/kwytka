@@ -1,0 +1,219 @@
+.site-shell {
+    min-height: 100vh;
+    padding: clamp(1rem, 4vw, 3rem);
+    color: #201b19;
+    background-color: #f5f1ea;
+    background-image: linear-gradient(rgba(255, 253, 248, 0.48), rgba(255, 253, 248, 0.48)),
+        url('/images/kwytka.webp');
+    background-size: auto, 300px 300px;
+}
+
+.skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1100;
+    padding: 0.65rem 0.9rem;
+    color: #ffffff;
+    background: #201b19;
+    border-radius: 0.25rem;
+    transform: translateY(-160%);
+    transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.site-header,
+.page-surface {
+    width: min(100%, 68.75rem);
+    margin-inline: auto;
+}
+
+.site-header {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    background: #9a817b;
+    border: 1px solid rgba(32, 27, 25, 0.16);
+    border-radius: 0.5rem 0.5rem 0 0;
+    box-shadow: 0 1.25rem 3rem rgba(67, 48, 43, 0.16);
+}
+
+.header-inner {
+    display: flex;
+    min-height: 6.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+}
+
+.brand {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.9rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+.brand-mark {
+    width: 5.875rem;
+    height: 5.4375rem;
+    object-fit: contain;
+}
+
+.brand-wordmark {
+    width: min(18rem, 32vw);
+    height: auto;
+    white-space: nowrap;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(1.25rem, 3vw, 2.75rem);
+}
+
+.site-nav ::deep a {
+    position: relative;
+    padding: 0.65rem 0.2rem;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.25;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(32, 27, 25, 0.45);
+}
+
+.site-nav ::deep a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.25rem;
+    left: 0;
+    height: 2px;
+    content: '';
+    background: #ffffff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 180ms ease;
+}
+
+.site-nav ::deep a:hover::after,
+.site-nav ::deep a:focus-visible::after,
+.site-nav ::deep a.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.brand:focus-visible,
+.site-nav ::deep a:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 4px;
+}
+
+.page-surface {
+    min-height: 24rem;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    background: rgba(255, 253, 248, 0.96);
+    border-radius: 0 0 0.25rem 0.25rem;
+    box-shadow: 0 1.25rem 3rem rgba(67, 48, 43, 0.16);
+}
+
+@media (max-width: 52rem) {
+    .site-shell {
+        padding: 1rem;
+    }
+
+    .header-inner {
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem 1rem;
+        padding: 0.6rem 1rem 0.8rem;
+    }
+
+    .site-nav {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.65fr) minmax(0, 0.85fr);
+        gap: 0.45rem;
+        padding: 0;
+    }
+
+    .site-nav ::deep a {
+        padding: 0.5rem 0.3rem;
+        overflow: hidden;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 999px;
+    }
+}
+
+@media (max-width: 34rem) {
+    .site-shell {
+        padding: 0.5rem;
+    }
+
+    .site-header,
+    .page-surface {
+        border-radius: 0.4rem;
+    }
+
+    .header-inner {
+        justify-content: center;
+    }
+
+    .brand {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .brand-mark {
+        width: 3.75rem;
+        height: 3.75rem;
+    }
+
+    .brand-wordmark {
+        width: min(15.5rem, calc(100vw - 7rem));
+    }
+
+    .site-nav {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skip-link,
+    .site-nav ::deep a::after {
+        transition: none;
+    }
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
