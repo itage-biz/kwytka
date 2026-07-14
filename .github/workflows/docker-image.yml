@@ -37,6 +37,16 @@ jobs:
             type=sha,prefix=sha-,format=short
             type=match,pattern=v(.*),group=1
 
+      - name: Generate application version
+        id: app-version
+        uses: docker/metadata-action@v5
+        with:
+          images: mjr27/kwytka
+          tags: |
+            type=match,pattern=v(.*),group=1,priority=900
+            type=sha,prefix=0.0.0-sha.,format=short,priority=800
+            type=raw,value=0.0.0-dev,priority=100
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -45,4 +55,4 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           build-args: |
-            APP_VERSION=${{ steps.metadata.outputs.version }}
+            APP_VERSION=${{ steps.app-version.outputs.version }}
