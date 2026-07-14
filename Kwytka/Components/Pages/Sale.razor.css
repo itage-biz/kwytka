@@ -37,3 +37,46 @@ h1 {
     color: #6a605d;
     font-style: italic;
 }
+
+.sale-content ::deep table {
+    width: 100%;
+    color: #352d2a;
+    line-height: 1.35;
+    border: 1px solid #ddd0cb;
+    border-collapse: collapse;
+    border-radius: 0.35rem;
+    overflow: hidden;
+}
+
+.sale-content ::deep th,
+.sale-content ::deep td {
+    min-width: 5rem;
+    padding: 0.5rem 0.65rem;
+    border: 0;
+    border-bottom: 1px solid #eee5e2;
+    text-align: left;
+    vertical-align: top;
+}
+
+.sale-content ::deep th + th,
+.sale-content ::deep td + td {
+    border-left: 1px solid rgba(218, 204, 199, 0.38);
+}
+
+.sale-content ::deep th {
+    color: #3f302c;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: #f7f0ed;
+    border-bottom-color: #dccbc5;
+}
+
+.sale-content ::deep .count-column {
+    font-weight: 800;
+    text-align: center;
+}
+
+.sale-content ::deep tbody tr:nth-child(even) {
+    background: #fcf9f8;
+}

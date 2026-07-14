@@ -3,8 +3,6 @@
 @inject Configuration.IConfigurationService ConfigurationService
 <PageTitle>Адміністрування - Квітка</PageTitle>
 
-<QuillAssets/>
-
 <section class="admin-page" aria-labelledby="admin-title">
     <header class="admin-header">
         <div>
@@ -32,8 +30,28 @@
             <span>Розпродаж увімкнуто</span>
         </label>
 
-        <label class="field-label">Текст сторінки розпродажу</label>
-        <QuillEditor @bind-Value="ConfigurationService.Data.SalePageHtml" MinHeight="12rem" Sanitize="true"/>
+        <label class="field-label">
+            <span>Таблиця розпродажу</span>
+            <div class="price-list-textarea-with-clear">
+                <PasteableTableInput class="price-list-content-input"
+                                     @bind-Value="ConfigurationService.Data.SalePageHtml"></PasteableTableInput>
+                <button type="button" class="price-list-clear-button" title="Очистити вміст"
+                        aria-label="Очистити таблицю розпродажу" @onclick="ClearSalePageContent">×</button>
+            </div>
+        </label>
+        <details class="price-list-preview">
+            <summary>Попередній перегляд</summary>
+            <div class="price-list-preview-content" data-count-columns="@ConfigurationService.Data.CountColumns">
+                @if (string.IsNullOrWhiteSpace(ConfigurationService.Data.SalePageHtml))
+                {
+                    <p class="price-list-empty-preview">Порожній вміст</p>
+                }
+                else
+                {
+                    @((MarkupString)ConfigurationService.Data.SalePageHtml)
+                }
+            </div>
+        </details>
     </section>
 
     <section class="settings-section" aria-labelledby="price-lists-title">
@@ -44,6 +62,11 @@
             </div>
             <button class="add-button" type="button" @onclick="AddPriceList">+ Додати прайс-лист</button>
         </div>
+
+        <label>
+            <span>Колонки з кількістю</span>
+            <input @bind="ConfigurationService.Data.CountColumns"/>
+        </label>
 
         @if (ConfigurationService.Data.PriceLists.Count == 0)
         {
@@ -82,7 +105,7 @@
                             </label>
                             <details class="price-list-preview">
                                 <summary>Попередній перегляд</summary>
-                                <div class="price-list-preview-content">
+                                <div class="price-list-preview-content" data-count-columns="@ConfigurationService.Data.CountColumns">
                                     @if (string.IsNullOrWhiteSpace(priceList.HtmlContent))
                                     {
                                         <p class="price-list-empty-preview">Порожній вміст</p>
@@ -113,6 +136,8 @@
         }
     </section>
 </section>
+
+<script type="module" src="@Assets["table-column-formatting.js"]"></script>
 
 @code {
     private bool _isSaving;
@@ -168,6 +193,11 @@
     private void ClearPriceListContent(int index)
     {
         ConfigurationService.Data.PriceLists[index].HtmlContent = string.Empty;
+    }
+
+    private void ClearSalePageContent()
+    {
+        ConfigurationService.Data.SalePageHtml = string.Empty;
     }
 
 }

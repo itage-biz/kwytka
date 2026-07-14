@@ -346,6 +346,11 @@ h2 {
     border-bottom-color: #dccbc5;
 }
 
+.price-list-preview-content ::deep .count-column {
+    font-weight: 800;
+    text-align: center;
+}
+
 .price-list-preview-content ::deep tbody tr:nth-child(even) {
     background: #fcf9f8;
 }

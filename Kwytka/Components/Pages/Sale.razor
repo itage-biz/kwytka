@@ -5,7 +5,9 @@
 
 <section class="sale-page" aria-labelledby="sale-title">
     <h1 id="sale-title">Розпродаж</h1>
-    <div class="sale-content">
+    <div class="sale-content" data-count-columns="@ConfigurationService.Data.CountColumns">
         @((MarkupString)ConfigurationService.Data.SalePageHtml)
     </div>
 </section>
+
+<script type="module" src="@Assets["table-column-formatting.js"]"></script>

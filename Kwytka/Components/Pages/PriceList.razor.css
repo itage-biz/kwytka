@@ -116,6 +116,11 @@ h1 {
     border-bottom-color: #dccbc5;
 }
 
+.price-list-page ::deep .count-column {
+    font-weight: 800;
+    text-align: center;
+}
+
 .price-list-page ::deep tbody tr:nth-child(even) {
     background: #fcf9f8;
 }

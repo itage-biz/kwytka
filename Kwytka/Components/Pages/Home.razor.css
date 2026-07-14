@@ -20,13 +20,18 @@
 }
 
 .home-intro-copy {
+    align-self: stretch;
     max-width: 42rem;
-    padding-top: 0.35rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(154, 129, 123, 0.3);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.75rem 1.75rem rgba(67, 48, 43, 0.06);
 }
 
 .home-intro-text {
     margin: 0 0 1rem;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.45;
     text-align: left;
 }
@@ -53,6 +58,6 @@
     }
 
     .home-intro-copy {
-        padding-top: 0;
+        max-width: none;
     }
 }

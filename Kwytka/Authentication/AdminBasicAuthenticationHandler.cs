@@ -13,24 +13,17 @@ public static class AdminBasicAuthenticationDefaults
     public const string Scheme = "AdminBasic";
 }
 
-public sealed class AdminBasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public sealed class AdminBasicAuthenticationHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    IConfiguration configuration)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private readonly IConfiguration _configuration;
-
-    public AdminBasicAuthenticationHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory logger,
-        UrlEncoder encoder,
-        IConfiguration configuration)
-        : base(options, logger, encoder)
-    {
-        _configuration = configuration;
-    }
-
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var expectedLogin = _configuration["Admin:Login"];
-        var expectedPassword = _configuration["Admin:Password"];
+        var expectedLogin = configuration["Admin:Login"];
+        var expectedPassword = configuration["Admin:Password"];
 
         if (string.IsNullOrWhiteSpace(expectedLogin) || string.IsNullOrWhiteSpace(expectedPassword))
         {

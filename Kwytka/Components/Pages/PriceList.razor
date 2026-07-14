@@ -22,7 +22,9 @@
             </div>
             <p class="price-list-search-empty" role="status" hidden>Нічого не знайдено</p>
         </div>
-        @((MarkupString)_priceList.HtmlContent)
+        <div data-count-columns="@ConfigurationService.Data.CountColumns">
+            @((MarkupString)_priceList.HtmlContent)
+        </div>
     }
 </section>
 
@@ -50,3 +52,4 @@
 }
 
 <script type="module" src="@Assets["Components/Pages/PriceList.razor.js"]"></script>
+<script type="module" src="@Assets["table-column-formatting.js"]"></script>
