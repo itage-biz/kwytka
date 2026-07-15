@@ -141,12 +141,12 @@ public sealed class JsonConfigurationService : IConfigurationService
         {
             if (priceList is null || string.IsNullOrWhiteSpace(priceList.Slug))
             {
-                throw new InvalidDataException("Every price list must have a slug.");
+                throw new InvalidDataException("Every price list must have a title that can be used in its URL.");
             }
 
             if (!slugs.Add(priceList.Slug))
             {
-                throw new InvalidDataException($"Price list slug '{priceList.Slug}' must be unique.");
+                throw new InvalidDataException("Price list titles must generate unique URLs.");
             }
         }
     }

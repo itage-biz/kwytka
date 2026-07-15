@@ -1,5 +1,7 @@
 @page "/admin"
 @rendermode InteractiveServer
+@using AnyAscii
+@using Slugify
 @inject Configuration.IConfigurationService ConfigurationService
 @inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
 <PageTitle>Адміністрування - Квітка</PageTitle>
@@ -95,10 +97,6 @@
                             <p class="card-index">Прайс-лист @(priceListIndex + 1)</p>
                             <div class="price-list-fields">
                                 <label>
-                                    <span>Slug</span>
-                                    <input @bind="priceList.Slug"/>
-                                </label>
-                                <label>
                                     <span>Назва</span>
                                     <input @bind="priceList.Title"/>
                                 </label>
@@ -150,6 +148,8 @@
 <script type="module" src="@Assets["table-column-formatting.js"]"></script>
 
 @code {
+    private static readonly SlugHelper s_slugHelper = new();
+
     private bool _isSaving;
     private string? _saveMessage;
     private Configuration.ConfigurationData _data = new();
@@ -192,6 +192,11 @@
 
         try
         {
+            foreach (var priceList in _data.PriceLists)
+            {
+                priceList.Slug = s_slugHelper.GenerateSlug(priceList.Title.Transliterate());
+            }
+
             await ConfigurationService.SaveAsync(_data);
             _saveMessage = "Зміни збережено.";
         }

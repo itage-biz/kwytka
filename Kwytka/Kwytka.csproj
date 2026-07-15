@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AnyAscii" Version="0.3.3"/>
+        <PackageReference Include="Slugify.Core" Version="5.1.1"/>
         <ProjectReference Include="../Kwytka.RichTextEditor/Kwytka.RichTextEditor.csproj"/>
     </ItemGroup>
 </Project>
