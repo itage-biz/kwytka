@@ -52,16 +52,15 @@
             <h2 id="sale-title">Розпродаж</h2>
         </div>
 
-        <label class="sale-toggle">
-            <input type="checkbox" @bind="_data.IsSaleEnabled"/>
-            <span class="toggle-track" aria-hidden="true"></span>
-            <span>Розпродаж увімкнуто</span>
-        </label>
-
-        <div class="price-list-content-field">
+        <div class="price-list-content-field sale-content-field">
             <div class="price-list-content-heading">
                 <label for="sale-page-content">Таблиця розпродажу</label>
                 <div class="price-list-content-actions">
+                    <label class="sale-toggle">
+                        <input type="checkbox" @bind="_data.IsSaleEnabled"/>
+                        <span class="toggle-track" aria-hidden="true"></span>
+                        <span>Розпродаж увімкнуто</span>
+                    </label>
                     <button type="button" class="price-list-clear-button" title="Очистити вміст"
                             aria-label="Очистити таблицю розпродажу" @onclick="ClearSalePageContent">×</button>
                     <button type="button" class="price-list-preview-button"
