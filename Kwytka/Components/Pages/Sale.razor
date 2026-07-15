@@ -6,9 +6,19 @@
 
 <section class="sale-page" aria-labelledby="sale-title">
     <h1 id="sale-title">Розпродаж</h1>
+    <div class="price-list-search" data-price-list-search>
+        <label for="price-list-search-input">Пошук у прайс-листі</label>
+        <div class="price-list-search-controls">
+            <input id="price-list-search-input" type="search"
+                   placeholder="Введіть назву або характеристику"/>
+            <button type="button" disabled>Очистити</button>
+        </div>
+        <p class="price-list-search-empty" role="status" hidden>Нічого не знайдено</p>
+    </div>
     <div class="table-scroll-container" data-count-columns="@TableOptions.Value.CountColumns">
         @((MarkupString)ConfigurationService.Data.SalePageHtml)
     </div>
 </section>
 
+<script type="module" src="@Assets["Components/Pages/PriceList.razor.js"]"></script>
 <script type="module" src="@Assets["table-column-formatting.js"]"></script>

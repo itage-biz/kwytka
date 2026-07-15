@@ -199,6 +199,8 @@
 
     .header-inner {
         justify-content: center;
+        gap: 0.4rem;
+        padding: 0.45rem 0.65rem 0.55rem;
     }
 
     .brand {
@@ -215,6 +217,17 @@
         font-size: clamp(2.3rem, 12vw, 2.75rem);
     }
 
+    .site-nav {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .site-nav ::deep a {
+        width: 100%;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0.35rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

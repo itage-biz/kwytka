@@ -1,5 +1,5 @@
 document.querySelectorAll('[data-price-list-search]').forEach(search => {
-    const page = search.closest('.price-list-page');
+    const page = search.closest('.price-list-page, .sale-page');
     const input = search.querySelector('input');
     const clearButton = search.querySelector('button');
     const emptyMessage = search.querySelector('.price-list-search-empty');
