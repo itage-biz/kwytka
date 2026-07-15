@@ -187,7 +187,6 @@ h2 {
     outline-offset: 3px;
 }
 
-.field-label,
 .price-list-card label {
     display: block;
     color: #5f5653;
@@ -196,7 +195,7 @@ h2 {
 }
 
 .content-input,
-.price-list-content-input,
+.price-list-content-field ::deep .price-list-content-input,
 .price-list-card input {
     width: 100%;
     margin-top: 0.45rem;
@@ -246,26 +245,33 @@ h2 {
     flex: 1;
 }
 
-.price-list-content-input {
+.price-list-content-field ::deep .price-list-content-input {
     min-height: 8rem;
     resize: vertical;
 }
 
-.price-list-textarea-with-clear {
+.price-list-content-heading,
+.price-list-content-actions {
     display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
+    align-items: center;
 }
 
-.price-list-textarea-with-clear .price-list-content-input {
-    margin: 0.45rem 0 0;
-    flex: 1;
+.price-list-content-heading {
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: #5f5653;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.price-list-content-actions {
+    flex: 0 0 auto;
+    gap: 0.5rem;
 }
 
 .price-list-clear-button {
     width: 2.5rem;
     height: 2.5rem;
-    margin-top: 0.45rem;
     color: #765b55;
     cursor: pointer;
     font-size: 1.2rem;
@@ -275,13 +281,33 @@ h2 {
     border-radius: 0.3rem;
 }
 
-.price-list-clear-button:hover {
+.price-list-preview-button {
+    min-height: 2.5rem;
+    padding: 0.45rem 0.7rem;
+    color: #765b55;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    background: #f3e9e5;
+    border: 1px solid #cdbdb7;
+    border-radius: 0.3rem;
+}
+
+.price-list-clear-button:hover,
+.price-list-preview-button:not(:disabled):hover {
     background: #f0dbd3;
 }
 
-.price-list-clear-button:focus-visible {
+.price-list-clear-button:focus-visible,
+.price-list-preview-button:focus-visible,
+.price-list-preview-close:focus-visible {
     outline: 3px solid #4e3935;
     outline-offset: 2px;
+}
+
+.price-list-preview-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
 }
 
 .price-list-actions {
@@ -314,34 +340,54 @@ h2 {
     color: #a3463f;
 }
 
-.price-list-preview {
-    margin-top: 0.9rem;
+.price-list-preview-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(32, 27, 25, 0.6);
 }
 
-.price-list-preview > summary {
-    display: inline-block;
-    padding: 0.28rem 0.55rem;
+.price-list-preview-modal {
+    display: flex;
+    width: calc(100vw - 2rem);
+    max-width: 80rem;
+    max-height: calc(100vh - 2rem);
+    flex-direction: column;
+    padding: 1rem;
+    background: #fffdfa;
+    border: 1px solid #cdbdb7;
+    border-radius: 0.5rem;
+    box-shadow: 0 1.5rem 4rem rgba(32, 27, 25, 0.35);
+}
+
+.price-list-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.price-list-preview-close {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
     color: #765b55;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1;
     background: #f3e9e5;
     border: 1px solid #cdbdb7;
     border-radius: 0.3rem;
 }
 
-.price-list-preview > summary:hover {
-    background: #f0dbd3;
-}
-
-.price-list-preview > summary:focus-visible {
-    outline: 3px solid #4e3935;
-    outline-offset: 2px;
-}
-
 .price-list-preview-content {
-    margin-top: 0.6rem;
+    min-height: 0;
+    margin-top: 1rem;
     padding: 0.75rem;
+    flex: 1;
     color: #201b19;
     background: #fffdfa;
     border: 1px solid #cdbdb7;
@@ -392,12 +438,6 @@ h2 {
 
 .price-list-preview-content ::deep tbody tr:nth-child(even) {
     background: #fcf9f8;
-}
-
-.price-list-empty-preview {
-    margin: 0;
-    color: #6a605d;
-    font-style: italic;
 }
 
 .add-button {

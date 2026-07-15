@@ -58,28 +58,22 @@
             <span>Розпродаж увімкнуто</span>
         </label>
 
-        <label class="field-label">
-            <span>Таблиця розпродажу</span>
-            <div class="price-list-textarea-with-clear">
-                <PasteableTableInput class="price-list-content-input"
-                                     @bind-Value="_data.SalePageHtml"></PasteableTableInput>
-                <button type="button" class="price-list-clear-button" title="Очистити вміст"
-                        aria-label="Очистити таблицю розпродажу" @onclick="ClearSalePageContent">×</button>
+        <div class="price-list-content-field">
+            <div class="price-list-content-heading">
+                <label for="sale-page-content">Таблиця розпродажу</label>
+                <div class="price-list-content-actions">
+                    <button type="button" class="price-list-clear-button" title="Очистити вміст"
+                            aria-label="Очистити таблицю розпродажу" @onclick="ClearSalePageContent">×</button>
+                    <button type="button" class="price-list-preview-button"
+                            disabled="@string.IsNullOrWhiteSpace(_data.SalePageHtml)"
+                            @onclick="OpenSalePreview">
+                        Попередній перегляд
+                    </button>
+                </div>
             </div>
-        </label>
-        <details class="price-list-preview">
-            <summary>Попередній перегляд</summary>
-            <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
-                @if (string.IsNullOrWhiteSpace(_data.SalePageHtml))
-                {
-                    <p class="price-list-empty-preview">Порожній вміст</p>
-                }
-                else
-                {
-                    @((MarkupString)_data.SalePageHtml)
-                }
-            </div>
-        </details>
+            <PasteableTableInput id="sale-page-content" class="price-list-content-input"
+                                 @bind-Value="_data.SalePageHtml"></PasteableTableInput>
+        </div>
     </section>
 
     <section class="settings-section" aria-labelledby="price-lists-title">
@@ -112,29 +106,24 @@
                                     <input @bind="priceList.Title"/>
                                 </label>
                             </div>
-                            <label>
-                                <span>HTML-вміст</span>
-                                <div class="price-list-textarea-with-clear">
-                                    <PasteableTableInput class="price-list-content-input"
-                                                         @bind-Value="priceList.HtmlContent"></PasteableTableInput>
-                                    <button type="button" class="price-list-clear-button" title="Очистити вміст"
-                                            aria-label="Очистити HTML-вміст"
-                                        @onclick="() => ClearPriceListContent(priceListIndex)">×</button>
+                            <div class="price-list-content-field">
+                                <div class="price-list-content-heading">
+                                    <label for="@($"price-list-content-{priceListIndex}")">HTML-вміст</label>
+                                    <div class="price-list-content-actions">
+                                        <button type="button" class="price-list-clear-button" title="Очистити вміст"
+                                                aria-label="Очистити HTML-вміст"
+                                                @onclick="() => ClearPriceListContent(priceListIndex)">×</button>
+                                        <button type="button" class="price-list-preview-button"
+                                                disabled="@string.IsNullOrWhiteSpace(priceList.HtmlContent)"
+                                                @onclick="() => OpenPreview(priceList.Title, priceList.HtmlContent)">
+                                            Попередній перегляд
+                                        </button>
+                                    </div>
                                 </div>
-                            </label>
-                            <details class="price-list-preview">
-                                <summary>Попередній перегляд</summary>
-                                <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
-                                    @if (string.IsNullOrWhiteSpace(priceList.HtmlContent))
-                                    {
-                                        <p class="price-list-empty-preview">Порожній вміст</p>
-                                    }
-                                    else
-                                    {
-                                        @((MarkupString)priceList.HtmlContent)
-                                    }
-                                </div>
-                            </details>
+                                <PasteableTableInput id="@($"price-list-content-{priceListIndex}")"
+                                                     class="price-list-content-input"
+                                                     @bind-Value="priceList.HtmlContent"></PasteableTableInput>
+                            </div>
                         </div>
                         <div class="price-list-actions" aria-label="Дії з прайс-листом">
                             <button type="button" title="Перемістити вище" aria-label="Перемістити вище"
@@ -156,18 +145,51 @@
     </section>
 </section>
 
+@if (_previewHtml is not null)
+{
+    <div class="price-list-preview-backdrop" @onclick="ClosePreview">
+        <section class="price-list-preview-modal" role="dialog" aria-modal="true"
+                 aria-labelledby="price-list-preview-title" @onclick:stopPropagation="true"
+                 @onkeydown="HandlePreviewKeyDown">
+            <header class="price-list-preview-header">
+                <h2 id="price-list-preview-title">@_previewTitle</h2>
+                <button type="button" class="price-list-preview-close" aria-label="Закрити попередній перегляд"
+                        @ref="_previewCloseButton" @onclick="ClosePreview">×</button>
+            </header>
+            <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
+                @((MarkupString)_previewHtml)
+            </div>
+        </section>
+    </div>
+}
+
 <script type="module" src="@Assets["table-column-formatting.js"]"></script>
 
 @code {
     private static readonly SlugHelper SSlugHelper = new();
 
     private bool _isSaving;
+    private bool _focusPreviewCloseButton;
     private string? _saveMessage;
+    private string? _previewHtml;
+    private string _previewTitle = string.Empty;
     private Configuration.ConfigurationData _data = new();
+    private ElementReference _previewCloseButton;
 
     protected override void OnInitialized()
     {
         _data = ConfigurationService.Data;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_focusPreviewCloseButton)
+        {
+            return;
+        }
+
+        _focusPreviewCloseButton = false;
+        await _previewCloseButton.FocusAsync();
     }
 
     private void AddPriceList()
@@ -229,6 +251,37 @@
     private void ClearSalePageContent()
     {
         _data.SalePageHtml = string.Empty;
+    }
+
+    private void OpenSalePreview()
+    {
+        OpenPreview("Розпродаж", _data.SalePageHtml);
+    }
+
+    private void OpenPreview(string title, string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+        {
+            return;
+        }
+
+        _previewTitle = string.IsNullOrWhiteSpace(title) ? "Попередній перегляд" : title;
+        _previewHtml = html;
+        _focusPreviewCloseButton = true;
+    }
+
+    private void ClosePreview()
+    {
+        _previewHtml = null;
+        _previewTitle = string.Empty;
+    }
+
+    private void HandlePreviewKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape")
+        {
+            ClosePreview();
+        }
     }
 
 }

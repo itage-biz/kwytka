@@ -92,7 +92,6 @@ h1 {
     padding: 0.65rem;
     background: rgba(255, 255, 255, 0.72);
     border: 1px solid rgba(154, 129, 123, 0.34);
-    border-radius: 11rem 11rem 0.5rem 0.5rem;
     box-shadow: 0 1.25rem 2.5rem rgba(67, 48, 43, 0.14);
 }
 
@@ -100,7 +99,17 @@ h1 {
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 10.5rem 10.5rem 0.25rem 0.25rem;
+}
+
+.home-ship {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.home-ship img {
+    display: block;
+    width: min(100%, 15.5rem);
+    height: auto;
+    margin-inline: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
