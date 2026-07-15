@@ -25,10 +25,14 @@
     transform: translateY(0);
 }
 
-.site-header,
-.page-surface {
+.layout-container {
     width: min(100%, 68.75rem);
     margin-inline: auto;
+}
+
+.site-header,
+.page-surface {
+    width: auto;
 }
 
 .site-header {
@@ -133,7 +137,7 @@
 }
 
 .site-footer {
-    width: min(100%, 68.75rem);
+    width: 100%;
     margin: 1rem auto 0;
     color: #5f5653;
     font-size: 0.8rem;

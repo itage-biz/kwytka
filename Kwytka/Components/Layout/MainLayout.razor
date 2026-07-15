@@ -4,27 +4,29 @@
 <div class="site-shell">
     <a class="skip-link" href="#main-content">Перейти до вмісту</a>
 
-    <header class="site-header">
-        <div class="header-inner">
-            <a class="brand" href="/" aria-label="Kwytka — на головну">
-                <img class="brand-mark" src="images/log2.webp" alt="" />
-                <span class="brand-wordmark">KWYTKA</span>
-            </a>
+    <div class="layout-container">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="/" aria-label="Kwytka — на головну">
+                    <img class="brand-mark" src="images/log2.webp" alt="" />
+                    <span class="brand-wordmark">KWYTKA</span>
+                </a>
 
-            <nav class="site-nav" aria-label="Головна навігація">
-                <NavLink href="price">Наявність асортименту</NavLink>
-                @if (ConfigurationService.Data.IsSaleEnabled)
-                {
-                    <NavLink class="sale-nav-link" href="sale">Розпродаж</NavLink>
-                }
-                <NavLink href="contacts">Контакти</NavLink>
-            </nav>
-        </div>
-    </header>
+                <nav class="site-nav" aria-label="Головна навігація">
+                    <NavLink href="price">Наявність асортименту</NavLink>
+                    @if (ConfigurationService.Data.IsSaleEnabled)
+                    {
+                        <NavLink class="sale-nav-link" href="sale">Розпродаж</NavLink>
+                    }
+                    <NavLink href="contacts">Контакти</NavLink>
+                </nav>
+            </div>
+        </header>
 
-    <main id="main-content" class="page-surface">
-        @Body
-    </main>
+        <main id="main-content" class="page-surface">
+            @Body
+        </main>
+    </div>
 
     <footer class="site-footer">
         &copy; Kwytka, @DateTime.Now.Year, v.@AppVersion
