@@ -5,6 +5,7 @@
 @inject Configuration.IConfigurationService ConfigurationService
 @inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
 <PageTitle>Адміністрування - Квітка</PageTitle>
+<QuillAssets/>
 
 <section class="admin-page" aria-labelledby="admin-title">
     <header class="admin-header">
@@ -35,9 +36,19 @@
         <p class="save-message" role="status">@_saveMessage</p>
     }
 
-    <section class="settings-section" aria-labelledby="sale-title">
+    <section class="settings-section" aria-labelledby="price-list-prefix-title">
         <div class="section-heading">
             <p class="section-number">01</p>
+            <h2 id="price-list-prefix-title">Текст на сторінках прайсів</h2>
+        </div>
+        <div class="price-list-prefix-editor">
+            <QuillEditor @bind-Value="_data.PriceListPrefix" MinHeight="8rem"/>
+        </div>
+    </section>
+
+    <section class="settings-section" aria-labelledby="sale-title">
+        <div class="section-heading">
+            <p class="section-number">02</p>
             <h2 id="sale-title">Розпродаж</h2>
         </div>
 
@@ -74,7 +85,7 @@
     <section class="settings-section" aria-labelledby="price-lists-title">
         <div class="price-lists-header">
             <div class="section-heading">
-                <p class="section-number">02</p>
+                <p class="section-number">03</p>
                 <h2 id="price-lists-title">Прайс-листи</h2>
             </div>
             <button class="add-button" type="button" @onclick="AddPriceList">+ Додати прайс-лист</button>
@@ -148,7 +159,7 @@
 <script type="module" src="@Assets["table-column-formatting.js"]"></script>
 
 @code {
-    private static readonly SlugHelper s_slugHelper = new();
+    private static readonly SlugHelper SSlugHelper = new();
 
     private bool _isSaving;
     private string? _saveMessage;
@@ -194,7 +205,7 @@
         {
             foreach (var priceList in _data.PriceLists)
             {
-                priceList.Slug = s_slugHelper.GenerateSlug(priceList.Title.Transliterate());
+                priceList.Slug = SSlugHelper.GenerateSlug(priceList.Title.Transliterate());
             }
 
             await ConfigurationService.SaveAsync(_data);

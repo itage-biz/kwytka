@@ -14,6 +14,10 @@
     {
         <a class="back-link" href="/price" data-enhance-nav="false">← До асортименту</a>
         <h1 id="price-list-title">@_priceList.Title</h1>
+        @if (!string.IsNullOrWhiteSpace(_priceListPrefix))
+        {
+            <div class="price-list-prefix">@((MarkupString)_priceListPrefix)</div>
+        }
         <div class="price-list-search" data-price-list-search>
             <label for="price-list-search-input">Пошук у прайс-листі</label>
             <div class="price-list-search-controls">
@@ -34,10 +38,13 @@
     [CascadingParameter] private HttpContext? HttpContext { get; set; }
 
     private Kwytka.Configuration.PriceList? _priceList;
+    private string _priceListPrefix = string.Empty;
 
     protected override void OnParametersSet()
     {
-        _priceList = ConfigurationService.Data.PriceLists.FirstOrDefault(priceList =>
+        var data = ConfigurationService.Data;
+        _priceListPrefix = data.PriceListPrefix;
+        _priceList = data.PriceLists.FirstOrDefault(priceList =>
             string.Equals(priceList.Slug, Slug, StringComparison.OrdinalIgnoreCase));
 
         if (_priceList is null || string.IsNullOrWhiteSpace(_priceList.HtmlContent))

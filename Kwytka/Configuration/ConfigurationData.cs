@@ -6,6 +6,8 @@ public sealed class ConfigurationData
 
     public bool IsSaleEnabled { get; set; }
 
+    public string PriceListPrefix { get; set; } = string.Empty;
+
     public string SalePageHtml { get; set; } = string.Empty;
 
     public ConfigurationData Clone() => new()
@@ -17,6 +19,7 @@ public sealed class ConfigurationData
             HtmlContent = priceList.HtmlContent
         }).ToList(),
         IsSaleEnabled = IsSaleEnabled,
+        PriceListPrefix = PriceListPrefix,
         SalePageHtml = SalePageHtml
     };
 }

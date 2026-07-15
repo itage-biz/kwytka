@@ -133,6 +133,10 @@ h2 {
     font-weight: 400;
 }
 
+.price-list-prefix-editor {
+    margin-top: 1.5rem;
+}
+
 .sale-toggle {
     position: relative;
     align-items: center;

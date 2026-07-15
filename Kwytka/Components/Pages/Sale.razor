@@ -4,8 +4,16 @@
 
 <PageTitle>Розпродаж - Квітка</PageTitle>
 
+@{
+    var data = ConfigurationService.Data;
+}
+
 <section class="sale-page" aria-labelledby="sale-title">
     <h1 id="sale-title">Розпродаж</h1>
+    @if (!string.IsNullOrWhiteSpace(data.PriceListPrefix))
+    {
+        <div class="price-list-prefix">@((MarkupString)data.PriceListPrefix)</div>
+    }
     <div class="price-list-search" data-price-list-search>
         <label for="price-list-search-input">Пошук у прайс-листі</label>
         <div class="price-list-search-controls">
@@ -16,7 +24,7 @@
         <p class="price-list-search-empty" role="status" hidden>Нічого не знайдено</p>
     </div>
     <div class="table-scroll-container" data-count-columns="@TableOptions.Value.CountColumns">
-        @((MarkupString)ConfigurationService.Data.SalePageHtml)
+        @((MarkupString)data.SalePageHtml)
     </div>
 </section>
 

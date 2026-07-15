@@ -16,6 +16,24 @@ h1 {
     line-height: 1.1;
 }
 
+.price-list-prefix {
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    color: #5f5653;
+    line-height: 1.6;
+}
+
+.price-list-prefix ::deep > :first-child {
+    margin-top: 0;
+}
+
+.price-list-prefix ::deep > :last-child {
+    margin-bottom: 0;
+}
+
+.price-list-prefix + .price-list-search {
+    margin-top: 1rem;
+}
+
 .price-list-search {
     margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
@@ -68,11 +86,6 @@ h1 {
     font-style: italic;
 }
 
-.table-scroll-container {
-    max-width: 100%;
-    overflow-x: auto;
-}
-
 .sale-page [data-count-columns]:empty::before {
     content: 'Текст розпродажу ще не додано.';
     color: #6a605d;
@@ -81,10 +94,11 @@ h1 {
 
 .sale-page ::deep table {
     margin-top: 1rem;
-    width: max-content;
-    min-width: 100%;
+    width: 100%;
     color: #352d2a;
+    font-size: 10pt;
     line-height: 1.35;
+    table-layout: fixed;
     border: 1px solid #ddd0cb;
     border-collapse: collapse;
     border-radius: 0.35rem;
@@ -93,10 +107,10 @@ h1 {
 
 .sale-page ::deep th,
 .sale-page ::deep td {
-    min-width: 4rem;
-    padding: 0.5rem 0.65rem;
+    padding: 0.5rem 0.45rem;
     border: 0;
     border-bottom: 1px solid #eee5e2;
+    overflow-wrap: anywhere;
     text-align: left;
     vertical-align: top;
 }
@@ -108,7 +122,6 @@ h1 {
 
 .sale-page ::deep th {
     color: #3f302c;
-    font-size: 0.9rem;
     font-weight: 800;
     line-height: 1.2;
     background: #f7f0ed;
