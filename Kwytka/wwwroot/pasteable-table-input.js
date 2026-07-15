@@ -72,10 +72,14 @@ function parseHTMLTable(html) {
     }
 
     const rows = Array.from(table.querySelectorAll("tr")).map((row) =>
-        Array.from(row.querySelectorAll(":scope > th, :scope > td")).map((cell) => cell.textContent ?? "")
+        Array.from(row.querySelectorAll(":scope > th, :scope > td")).map((cell) => ({
+            value: cell.textContent ?? "",
+            colspan: cell.getAttribute("colspan"),
+            rowspan: cell.getAttribute("rowspan")
+        }))
     );
 
-    return normalizeRows(rows.filter((row) => row.length > 0));
+    return rows.filter((row) => row.length > 0);
 }
 
 function parseSpreadsheetClipboard(plainText, html) {
@@ -93,6 +97,16 @@ function escapeHtml(value) {
         .replaceAll("`", "&#96;");
 }
 
+function toCellHtml(cell, tagName) {
+    const value = typeof cell === "string" ? cell : cell.value;
+    const colspan = typeof cell === "string" ? null : cell.colspan;
+    const rowspan = typeof cell === "string" ? null : cell.rowspan;
+    const colspanAttribute = colspan ? ` colspan="${escapeHtml(colspan)}"` : "";
+    const rowspanAttribute = rowspan ? ` rowspan="${escapeHtml(rowspan)}"` : "";
+
+    return `<${tagName}${colspanAttribute}${rowspanAttribute}>${escapeHtml(value)}</${tagName}>`;
+}
+
 function toTableHtml(rows) {
     if (rows.length === 0) {
         return "";
@@ -101,9 +115,9 @@ function toTableHtml(rows) {
     const headerRow = rows[0];
     const bodyRows = rows.slice(1);
 
-    const header = `<thead><tr>${headerRow.map((cell) => `<th>${escapeHtml(cell)}</th>`).join("")}</tr></thead>`;
+    const header = `<thead><tr>${headerRow.map((cell) => toCellHtml(cell, "th")).join("")}</tr></thead>`;
     const body = bodyRows.length > 0
-        ? `<tbody>${bodyRows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("")}</tbody>`
+        ? `<tbody>${bodyRows.map((row) => `<tr>${row.map((cell) => toCellHtml(cell, "td")).join("")}</tr>`).join("")}</tbody>`
         : "";
 
     return `<table>${header}${body}</table>`;

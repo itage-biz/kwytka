@@ -1,6 +1,7 @@
 @page "/sale"
 @inject Configuration.IConfigurationService ConfigurationService
 @inject Microsoft.Extensions.Options.IOptions<Configuration.TableFormattingOptions> TableOptions
+@using System.Globalization
 
 <PageTitle>Розпродаж - Квітка</PageTitle>
 
@@ -10,6 +11,10 @@
 
 <section class="sale-page" aria-labelledby="sale-title">
     <h1 id="sale-title">Розпродаж</h1>
+    @if (data.LastTableUpdatedAtUtc is not null)
+    {
+        <p class="updated-at">Оновлено: @data.LastTableUpdatedAtUtc.Value.ToLocalTime().ToString("D", CultureInfo.GetCultureInfo("uk-UA"))</p>
+    }
     @if (!string.IsNullOrWhiteSpace(data.PriceListPrefix))
     {
         <div class="price-list-prefix">@((MarkupString)data.PriceListPrefix)</div>

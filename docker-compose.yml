@@ -2,6 +2,8 @@ services:
   kwytka:
     image: mjr27/kwytka:latest
     restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
     ports:
       - "${KWYTKA_PORT:-8080}:8080"
     environment:
@@ -10,3 +12,13 @@ services:
       Admin__Password: ${KWYTKA_ADMIN_PASSWORD:?Set KWYTKA_ADMIN_PASSWORD in the deployment environment.}
     volumes:
       - ${KWYTKA_SETTINGS_PATH:?Set KWYTKA_SETTINGS_PATH to the absolute host path of settings.json.}:/app/settings.json
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    restart: unless-stopped
+    environment:
+      WATCHTOWER_LABEL_ENABLE: "true"
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: 300
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

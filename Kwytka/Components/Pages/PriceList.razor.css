@@ -24,6 +24,12 @@ h1 {
     line-height: 1.1;
 }
 
+.updated-at {
+    margin: 0.5rem 0 0;
+    color: #6a605d;
+    font-size: 0.9rem;
+}
+
 .price-list-prefix {
     margin-top: clamp(1.5rem, 4vw, 2.5rem);
     color: #5f5653;

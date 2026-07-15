@@ -9,6 +9,8 @@
 
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
+    [Parameter] public EventCallback TableUpdated { get; set; }
+
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? AdditionalAttributes { get; set; }
 
@@ -41,6 +43,11 @@
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);
+        }
+
+        if (TableUpdated.HasDelegate)
+        {
+            await TableUpdated.InvokeAsync();
         }
     }
 

@@ -71,7 +71,7 @@
                 </div>
             </div>
             <PasteableTableInput id="sale-page-content" class="price-list-content-input"
-                                 @bind-Value="_data.SalePageHtml"></PasteableTableInput>
+                                 @bind-Value="_data.SalePageHtml" TableUpdated="RecordTableUpdate"></PasteableTableInput>
         </div>
     </section>
 
@@ -121,7 +121,7 @@
                                 </div>
                                 <PasteableTableInput id="@($"price-list-content-{priceListIndex}")"
                                                      class="price-list-content-input"
-                                                     @bind-Value="priceList.HtmlContent"></PasteableTableInput>
+                                                     @bind-Value="priceList.HtmlContent" TableUpdated="RecordTableUpdate"></PasteableTableInput>
                             </div>
                         </div>
                         <div class="price-list-actions" aria-label="Дії з прайс-листом">
@@ -250,6 +250,11 @@
     private void ClearSalePageContent()
     {
         _data.SalePageHtml = string.Empty;
+    }
+
+    private void RecordTableUpdate()
+    {
+        _data.LastTableUpdatedAtUtc = DateTimeOffset.UtcNow;
     }
 
     private void OpenSalePreview()

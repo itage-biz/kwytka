@@ -3,6 +3,7 @@
 @inject IOptions<Configuration.TableFormattingOptions> TableOptions
 @using Microsoft.AspNetCore.Http
 @using Microsoft.Extensions.Options
+@using System.Globalization
 
 <PageTitle>@(_priceList?.Title ?? "Прайс-лист") - Квітка</PageTitle>
 
@@ -15,6 +16,10 @@
     {
         <a class="back-link" href="/price" data-enhance-nav="false">← До асортименту</a>
         <h1 id="price-list-title">@_priceList.Title</h1>
+        @if (_lastTableUpdatedAtUtc is not null)
+        {
+            <p class="updated-at">Оновлено: @_lastTableUpdatedAtUtc.Value.ToLocalTime().ToString("D", CultureInfo.GetCultureInfo("uk-UA"))</p>
+        }
         @if (!string.IsNullOrWhiteSpace(_priceListPrefix))
         {
             <div class="price-list-prefix">@((MarkupString)_priceListPrefix)</div>
@@ -40,11 +45,13 @@
 
     private Kwytka.Configuration.PriceList? _priceList;
     private string _priceListPrefix = string.Empty;
+    private DateTimeOffset? _lastTableUpdatedAtUtc;
 
     protected override void OnParametersSet()
     {
         var data = ConfigurationService.Data;
         _priceListPrefix = data.PriceListPrefix;
+        _lastTableUpdatedAtUtc = data.LastTableUpdatedAtUtc;
         _priceList = data.PriceLists.FirstOrDefault(priceList =>
             string.Equals(priceList.Slug, Slug, StringComparison.OrdinalIgnoreCase));
 

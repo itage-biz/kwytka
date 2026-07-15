@@ -10,6 +10,8 @@ public sealed class ConfigurationData
 
     public string SalePageHtml { get; set; } = string.Empty;
 
+    public DateTimeOffset? LastTableUpdatedAtUtc { get; set; }
+
     public ConfigurationData Clone() => new()
     {
         PriceLists = PriceLists.Select(priceList => new PriceList
@@ -20,6 +22,7 @@ public sealed class ConfigurationData
         }).ToList(),
         IsSaleEnabled = IsSaleEnabled,
         PriceListPrefix = PriceListPrefix,
-        SalePageHtml = SalePageHtml
+        SalePageHtml = SalePageHtml,
+        LastTableUpdatedAtUtc = LastTableUpdatedAtUtc
     };
 }
