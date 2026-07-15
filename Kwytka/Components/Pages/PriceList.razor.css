@@ -100,13 +100,18 @@ h1 {
     font-style: italic;
 }
 
+.table-scroll-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 .price-list-page ::deep table {
     margin-top: 1rem;
     width: 100%;
     color: #352d2a;
     font-size: 10pt;
     line-height: 1.35;
-    table-layout: fixed;
+    table-layout: auto;
     border: 1px solid #ddd0cb;
     border-collapse: collapse;
     border-radius: 0.35rem;

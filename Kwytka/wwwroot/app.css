@@ -15,7 +15,9 @@ body {
 }
 
 .layout-container:has(.page-surface .table-scroll-container) {
-    width: 100%;
+    width: fit-content;
+    min-width: min(100%, 68.75rem);
+    max-width: 100%;
 }
 
 h1:focus {
