@@ -7,4 +7,16 @@ public sealed class ConfigurationData
     public bool IsSaleEnabled { get; set; }
 
     public string SalePageHtml { get; set; } = string.Empty;
+
+    public ConfigurationData Clone() => new()
+    {
+        PriceLists = PriceLists.Select(priceList => new PriceList
+        {
+            Slug = priceList.Slug,
+            Title = priceList.Title,
+            HtmlContent = priceList.HtmlContent
+        }).ToList(),
+        IsSaleEnabled = IsSaleEnabled,
+        SalePageHtml = SalePageHtml
+    };
 }

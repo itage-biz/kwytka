@@ -8,7 +8,9 @@
 .section-heading,
 .sale-toggle,
 .price-list-card,
-.price-list-fields {
+.price-list-fields,
+.admin-actions,
+.upload-settings-form {
     display: flex;
 }
 
@@ -42,6 +44,8 @@ h1 {
 }
 
 .save-button,
+.download-button,
+.upload-button,
 .add-button {
     border: 0;
     border-radius: 999px;
@@ -54,6 +58,36 @@ h1 {
     padding: 0.8rem 1.2rem;
     color: #ffffff;
     background: #765b55;
+}
+
+.download-button {
+    padding: 0.8rem 1.2rem;
+    color: #765b55;
+    background: #f3e9e5;
+    border: 1px solid #cdbdb7;
+}
+
+.upload-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+    color: #765b55;
+    cursor: pointer;
+    background: #f3e9e5;
+    border: 1px solid #cdbdb7;
+}
+
+.admin-actions {
+    gap: 0.75rem;
+}
+
+.upload-settings-form {
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.upload-settings-form input[type='file'] {
+    display: none;
 }
 
 .save-button:disabled {
@@ -375,12 +409,16 @@ h2 {
 
 @media (max-width: 34rem) {
     .admin-header,
-    .price-lists-header {
+    .price-lists-header,
+    .admin-actions,
+    .upload-settings-form {
         align-items: stretch;
         flex-direction: column;
     }
 
     .save-button,
+    .download-button,
+    .upload-button,
     .add-button {
         width: 100%;
     }

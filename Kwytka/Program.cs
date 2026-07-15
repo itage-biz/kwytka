@@ -52,6 +52,31 @@ app.Use(async (context, next) =>
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseAntiforgery();
 
+app.MapGet("/admin/settings.json", async (IConfigurationService configurationService, CancellationToken cancellationToken) =>
+{
+    var settings = await configurationService.ExportAsync(cancellationToken);
+    return Results.File(settings, "application/json", "settings.json");
+});
+app.MapPost("/admin/settings.json", async (IFormFile? settingsFile, IConfigurationService configurationService,
+    CancellationToken cancellationToken) =>
+{
+    if (settingsFile is null || settingsFile.Length == 0)
+    {
+        return Results.BadRequest("Select a settings file to import.");
+    }
+
+    try
+    {
+        await using var stream = settingsFile.OpenReadStream();
+        await configurationService.ImportAsync(stream, cancellationToken);
+        return Results.Redirect("/admin");
+    }
+    catch (InvalidDataException exception)
+    {
+        return Results.BadRequest(exception.Message);
+    }
+});
+
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

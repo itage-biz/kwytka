@@ -9,9 +9,23 @@
         <div>
             <h1 id="admin-title">Адміністрування</h1>
         </div>
-        <button class="save-button" type="button" disabled="@_isSaving" @onclick="SaveAsync">
-            @(_isSaving ? "Збереження..." : "Зберегти зміни")
-        </button>
+        <div class="admin-actions">
+            <form method="get" action="/admin/settings.json" target="settings-export">
+                <button class="download-button" type="submit">Експорт</button>
+            </form>
+            <iframe name="settings-export" hidden></iframe>
+            <form class="upload-settings-form" method="post" action="/admin/settings.json" enctype="multipart/form-data">
+                <AntiforgeryToken/>
+                <label class="upload-button">
+                    Імпорт
+                    <input type="file" name="settingsFile" accept="application/json" required
+                           onchange="this.form.submit()"/>
+                </label>
+            </form>
+            <button class="save-button" type="button" disabled="@_isSaving" @onclick="SaveAsync">
+                @(_isSaving ? "Збереження..." : "Зберегти зміни")
+            </button>
+        </div>
     </header>
 
     @if (_saveMessage is not null)
@@ -26,7 +40,7 @@
         </div>
 
         <label class="sale-toggle">
-            <input type="checkbox" @bind="ConfigurationService.Data.IsSaleEnabled"/>
+            <input type="checkbox" @bind="_data.IsSaleEnabled"/>
             <span class="toggle-track" aria-hidden="true"></span>
             <span>Розпродаж увімкнуто</span>
         </label>
@@ -35,7 +49,7 @@
             <span>Таблиця розпродажу</span>
             <div class="price-list-textarea-with-clear">
                 <PasteableTableInput class="price-list-content-input"
-                                     @bind-Value="ConfigurationService.Data.SalePageHtml"></PasteableTableInput>
+                                     @bind-Value="_data.SalePageHtml"></PasteableTableInput>
                 <button type="button" class="price-list-clear-button" title="Очистити вміст"
                         aria-label="Очистити таблицю розпродажу" @onclick="ClearSalePageContent">×</button>
             </div>
@@ -43,13 +57,13 @@
         <details class="price-list-preview">
             <summary>Попередній перегляд</summary>
             <div class="price-list-preview-content" data-count-columns="@TableOptions.Value.CountColumns">
-                @if (string.IsNullOrWhiteSpace(ConfigurationService.Data.SalePageHtml))
+                @if (string.IsNullOrWhiteSpace(_data.SalePageHtml))
                 {
                     <p class="price-list-empty-preview">Порожній вміст</p>
                 }
                 else
                 {
-                    @((MarkupString)ConfigurationService.Data.SalePageHtml)
+                    @((MarkupString)_data.SalePageHtml)
                 }
             </div>
         </details>
@@ -64,17 +78,17 @@
             <button class="add-button" type="button" @onclick="AddPriceList">+ Додати прайс-лист</button>
         </div>
 
-        @if (ConfigurationService.Data.PriceLists.Count == 0)
+        @if (_data.PriceLists.Count == 0)
         {
             <p class="price-list-empty">Прайс-листів ще немає.</p>
         }
         else
         {
             <div class="price-list-cards">
-                @for (var index = 0; index < ConfigurationService.Data.PriceLists.Count; index++)
+                @for (var index = 0; index < _data.PriceLists.Count; index++)
                 {
                     var priceListIndex = index;
-                    var priceList = ConfigurationService.Data.PriceLists[priceListIndex];
+                    var priceList = _data.PriceLists[priceListIndex];
 
                     <article class="price-list-card" @key="priceList">
                         <div class="price-list-card-content">
@@ -119,7 +133,7 @@
                                     @onclick="() => MovePriceList(priceListIndex, -1)">↑
                             </button>
                             <button type="button" title="Перемістити нижче" aria-label="Перемістити нижче"
-                                    disabled="@(priceListIndex == ConfigurationService.Data.PriceLists.Count - 1)"
+                                    disabled="@(priceListIndex == _data.PriceLists.Count - 1)"
                                     @onclick="() => MovePriceList(priceListIndex, 1)">↓
                             </button>
                             <button class="delete-button" type="button" title="Видалити прайс-лист"
@@ -138,31 +152,36 @@
 @code {
     private bool _isSaving;
     private string? _saveMessage;
+    private Configuration.ConfigurationData _data = new();
 
+    protected override void OnInitialized()
+    {
+        _data = ConfigurationService.Data;
+    }
 
     private void AddPriceList()
     {
-        ConfigurationService.Data.PriceLists.Add(new Kwytka.Configuration.PriceList());
+        _data.PriceLists.Add(new Kwytka.Configuration.PriceList());
         _saveMessage = null;
     }
 
     private void DeletePriceList(int index)
     {
-        ConfigurationService.Data.PriceLists.RemoveAt(index);
+        _data.PriceLists.RemoveAt(index);
         _saveMessage = null;
     }
 
     private void MovePriceList(int index, int direction)
     {
         var targetIndex = index + direction;
-        if (targetIndex < 0 || targetIndex >= ConfigurationService.Data.PriceLists.Count)
+        if (targetIndex < 0 || targetIndex >= _data.PriceLists.Count)
         {
             return;
         }
 
-        var priceList = ConfigurationService.Data.PriceLists[index];
-        ConfigurationService.Data.PriceLists.RemoveAt(index);
-        ConfigurationService.Data.PriceLists.Insert(targetIndex, priceList);
+        var priceList = _data.PriceLists[index];
+        _data.PriceLists.RemoveAt(index);
+        _data.PriceLists.Insert(targetIndex, priceList);
         _saveMessage = null;
     }
 
@@ -173,7 +192,7 @@
 
         try
         {
-            await ConfigurationService.SaveAsync();
+            await ConfigurationService.SaveAsync(_data);
             _saveMessage = "Зміни збережено.";
         }
         catch (InvalidDataException exception)
@@ -188,12 +207,12 @@
 
     private void ClearPriceListContent(int index)
     {
-        ConfigurationService.Data.PriceLists[index].HtmlContent = string.Empty;
+        _data.PriceLists[index].HtmlContent = string.Empty;
     }
 
     private void ClearSalePageContent()
     {
-        ConfigurationService.Data.SalePageHtml = string.Empty;
+        _data.SalePageHtml = string.Empty;
     }
 
 }
