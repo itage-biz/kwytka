@@ -83,17 +83,3 @@ h2 {
     color: #5f5653;
     font-size: 0.9rem;
 }
-
-@media (max-width: 34rem) {
-    .contacts-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-card-wide {
-        grid-column: auto;
-    }
-
-    .contact-card {
-        min-height: 0;
-    }
-}

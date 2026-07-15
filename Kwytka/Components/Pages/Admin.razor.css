@@ -407,32 +407,3 @@ h2 {
     margin: 1.5rem 0 0;
     color: #6a605d;
 }
-
-@media (max-width: 34rem) {
-    .admin-header,
-    .price-lists-header,
-    .admin-actions,
-    .upload-settings-form {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .save-button,
-    .download-button,
-    .upload-button,
-    .add-button {
-        width: 100%;
-    }
-
-    .price-list-fields {
-        flex-direction: column;
-    }
-
-    .price-list-textarea-with-clear {
-        align-items: stretch;
-    }
-
-    .price-list-textarea-with-clear .price-list-content-input {
-        min-height: 6.5rem;
-    }
-}

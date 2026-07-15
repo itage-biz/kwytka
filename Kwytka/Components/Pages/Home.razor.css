@@ -103,31 +103,6 @@ h1 {
     border-radius: 10.5rem 10.5rem 0.25rem 0.25rem;
 }
 
-@media (max-width: 48rem) {
-    .home-hero {
-        grid-template-columns: 1fr;
-    }
-
-    .home-hero-copy {
-        max-width: none;
-    }
-
-    .home-hero-media {
-        width: min(100%, 20rem);
-        justify-self: center;
-    }
-}
-
-@media (max-width: 34rem) {
-    .home-hero-actions {
-        flex-direction: column;
-    }
-
-    .home-hero-action {
-        width: 100%;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .home-hero-action {
         transition: none;

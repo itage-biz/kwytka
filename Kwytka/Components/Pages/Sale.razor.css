@@ -123,9 +123,3 @@ h1 {
 .sale-page ::deep tbody tr:nth-child(even) {
     background: #fcf9f8;
 }
-
-@media (max-width: 34rem) {
-    .price-list-search-controls {
-        flex-direction: column;
-    }
-}

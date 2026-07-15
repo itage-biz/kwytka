@@ -41,9 +41,3 @@
     left: 0.75rem;
     color: #8a7b77;
 }
-
-@media (max-width: 50rem) {
-    .quill-editor {
-        --kwytka-editor-min-height: 8.5rem;
-    }
-}
