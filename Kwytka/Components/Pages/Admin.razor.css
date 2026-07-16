@@ -426,6 +426,14 @@ h2 {
     border-left: 1px solid rgba(218, 204, 199, 0.38);
 }
 
+.price-list-preview-content ::deep tr > :only-child:not(:empty) {
+    font-weight: 800;
+}
+
+.price-list-preview-content ::deep tr.empty-row {
+    display: none;
+}
+
 .price-list-preview-content ::deep th {
     color: #3f302c;
     font-size: 0.76rem;

@@ -131,6 +131,14 @@ h1 {
     border-left: 1px solid rgba(218, 204, 199, 0.38);
 }
 
+.sale-page ::deep tr > :only-child:not(:empty) {
+    font-weight: 800;
+}
+
+.sale-page ::deep tr.empty-row {
+    display: none;
+}
+
 .sale-page ::deep th {
     color: #3f302c;
     font-weight: 800;

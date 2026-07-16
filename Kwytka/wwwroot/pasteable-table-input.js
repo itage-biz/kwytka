@@ -64,14 +64,30 @@ function parseHTMLTable(html) {
         return [];
     }
 
-    const document = new DOMParser().parseFromString(html, "text/html");
+    const startMarker = "<!--StartFragment-->";
+    const endMarker = "<!--EndFragment-->";
+    const fragmentStart = html.indexOf(startMarker);
+    const fragmentEnd = html.indexOf(endMarker);
+    let source = html;
+
+    if (fragmentStart !== -1 && fragmentEnd > fragmentStart) {
+        const fragment = html.slice(fragmentStart + startMarker.length, fragmentEnd);
+        const firstRowIndex = fragment.search(/<tr(?:\s|>)/i);
+        const firstTableIndex = fragment.search(/<table(?:\s|>)/i);
+
+        if (firstRowIndex !== -1 && (firstTableIndex === -1 || firstRowIndex < firstTableIndex)) {
+            source = `<table>${fragment}</table>`;
+        }
+    }
+
+    const document = new DOMParser().parseFromString(source, "text/html");
     const table = document.querySelector("table");
 
     if (!table) {
         return [];
     }
 
-    const rows = Array.from(table.querySelectorAll("tr")).map((row) =>
+    const rows = Array.from(table.querySelectorAll(":scope > thead > tr, :scope > tbody > tr, :scope > tfoot > tr, :scope > tr")).map((row) =>
         Array.from(row.querySelectorAll(":scope > th, :scope > td")).map((cell) => ({
             value: cell.textContent ?? "",
             colspan: cell.getAttribute("colspan"),

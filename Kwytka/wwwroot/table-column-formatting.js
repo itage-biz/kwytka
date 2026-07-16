@@ -1,4 +1,4 @@
-function formatCountColumns(container) {
+function formatTableRows(container) {
     const countColumns = (container.dataset.countColumns ?? '')
         .split(',')
         .map(value => value.trim().toLocaleLowerCase())
@@ -13,18 +13,22 @@ function formatCountColumns(container) {
             .filter(index => index >= 0);
 
         table.querySelectorAll('tr').forEach(row => {
+            const isEmpty = [...row.children]
+                .every(cell => !cell.textContent.replaceAll('\u00a0', ' ').trim());
+
+            row.classList.toggle('empty-row', isEmpty);
             matchingIndexes.forEach(index => row.children[index]?.classList.add('count-column'));
         });
     });
 }
 
-function formatAllCountColumns() {
-    document.querySelectorAll('[data-count-columns]').forEach(formatCountColumns);
+function formatAllTables() {
+    document.querySelectorAll('[data-count-columns]').forEach(formatTableRows);
 }
 
-formatAllCountColumns();
+formatAllTables();
 
-new MutationObserver(formatAllCountColumns).observe(document.body, {
+new MutationObserver(formatAllTables).observe(document.body, {
     attributes: true,
     attributeFilter: ['data-count-columns'],
     childList: true,
